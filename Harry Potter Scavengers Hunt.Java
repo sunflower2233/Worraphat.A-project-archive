@@ -8,7 +8,8 @@ Description: It a game for user to travel through Hogwarts and magical world suc
 */
 
 
-public class Main {
+public class MyProgram
+{
 
   //objective
   static int creatures = 0; //mandrake, snidget, unicord, scabber
@@ -38,13 +39,15 @@ public class Main {
         //procedures for HMTS
 	public static void HogsmeadeTs()
 	{
+        System.out.println("-----------------------------------------------");
 	    System.out.println("\nYou have arrived the Hogsmeade Train Station");
-        System.out.println("Hagrid gave you a magic creatures list.It says");
+        System.out.println("Hagrid gave you a magic creatures list.It says...");
         System.out.println("Oh almost forgot. Go get your wand at Olivander wand shop at Hogsmeade Village");
-        System.out.println("the creatures you will be finding is\nUnicorn, it's a glowing horse with horn.\nMandrake is a magical and sentient plant which had a root that looked like a human.\nThe Golden Snidget was a small golden magical bird with fully rotational wings, the snidget is known as the fastest animal in the world.And the last oneScabber, It's just a fat rat.");
-        System.out.println("You must come meet Professor McGonagall at Hogwarts when you find all the creatures");
-      
+        System.out.println("The creatures you will be finding is\nUnicorn, it's a glowing horse with horn.\nMandrake is a magical and sentient plant which had a root that looked like a human.\nThe Golden Snidget was a small golden magical bird with fully rotational wings, the snidget is known as the fastest animal in the world. And the last oneScabber, It's just a fat rat.");
+        System.out.println("\nYou must come meet Professor McGonagall at Hogwarts when you find all the creatures");
         System.out.println("Hagrid : Oh friendly reminder dont get close to the Whomping Willow if you don't want to die");
+
+        System.out.println("\n-----------------------------------------------");
       
 
         //user choice
@@ -421,6 +424,7 @@ public class Main {
         System.out.println("Do you want to fly fast or slow?");
         System.out.println("(a) Fly fast");
         System.out.println("(b) Fly slow");
+        System.out.println("\nYour choice: ");
         String fs = In.getString();
 
         if(fs.equals("a"))
@@ -442,7 +446,7 @@ public class Main {
         System.out.println("Unfortunatly you do not have a bloom. you can not fly");
       }
 
-        System.out.println("\naWhere would you like to explore next");
+        System.out.println("\nWhere would you like to explore next");
          System.out.println("(a) Hogwarts");
          System.out.println("(b) Dorm");
          System.out.println("(c) Herbology class");
@@ -591,7 +595,7 @@ public class Main {
       public static void Finish()
         {//end the game
            if(creatures < 4)
-           {//win
+           {//Did not complete
              System.out.println("\nYou lose");
              System.out.println("You have to find the snidget, unicorn, mandrake and scabber");
 
@@ -600,15 +604,15 @@ public class Main {
              if(gn.equals("yes"))
              {
     
-               creatures =0;
+               creatures = 0;
                WizardingWorld();
              }
              
               
            }
           else if(creatures >= 4)
-          {//lose
-            System.out.println("\nYou win the Fanstastic Beast asn Where To Find Them contest!");
+          {//Completed
+            System.out.println("\nYou win the Fanstastic Beast and Where To Find Them contest!");
             System.out.println("Congratulations wizard!");
             System.out.println("Would you like to play again (yes/no)");
              String ng = In.getString();
@@ -620,13 +624,12 @@ public class Main {
 
           }
         }
-      
+}
 
-      
-	
-
-
-  
-  
-  
+class In {
+    private static java.util.Scanner scanner = new java.util.Scanner(System.in);
+    
+    public static String getString() {
+        return scanner.nextLine();
+    }
 }
