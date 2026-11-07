@@ -1,0 +1,131 @@
+#include <LiquidCrystal_I2C.h>
+#include <DHT.h>
+
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+#define BLUE_LED 8
+#define YELLOW_LED 9
+
+DHT dht(DHTPIN, DHTTYPE);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+
+  dht.begin();
+
+  pinMode(BLUE_LED, OUTPUT);
+  pinMode(YELLOW_LED, OUTPUT);
+
+  digitalWrite(BLUE_LED, LOW);
+  digitalWrite(YELLOW_LED, LOW);
+
+  // Welcome screen
+  lcd.setCursor(2, 0);
+  lcd.print("Environmental");
+
+  lcd.setCursor(4, 1);
+  lcd.print("Detector");
+
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+
+  // Check sensor readings
+  if (isnan(h) || isnan(t)) {
+
+    digitalWrite(BLUE_LED, LOW);
+    digitalWrite(YELLOW_LED, LOW);
+
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Failed to read");
+
+    lcd.setCursor(0, 1);
+    lcd.print("DHT sensor!");
+
+    delay(2000);
+    return;
+  }
+
+  // SCREEN 1: Display humidity and temperature
+
+  lcd.clear();
+
+  lcd.setCursor(0, 0);
+  lcd.print("Humi: ");
+  lcd.print(h);
+  lcd.print("%");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Temp: ");
+  lcd.print(t);
+  lcd.print((char)223);
+  lcd.print("C");
+
+  // Check humidity conditions
+
+  if (h < 40) {
+
+    // Too dry
+    digitalWrite(BLUE_LED, LOW);
+
+    digitalWrite(YELLOW_LED, HIGH);
+    delay(500);
+    digitalWrite(YELLOW_LED, LOW);
+    delay(500);
+  }
+
+  else if (h <= 55) {
+
+    // Normal humidity
+    digitalWrite(BLUE_LED, LOW);
+    digitalWrite(YELLOW_LED, LOW);
+
+    delay(1000);
+  }
+
+  else {
+
+    // Too humid
+    digitalWrite(YELLOW_LED, LOW);
+
+    digitalWrite(BLUE_LED, HIGH);
+    delay(500);
+    digitalWrite(BLUE_LED, LOW);
+    delay(500);
+  }
+
+  // SCREEN 2: Display humidity status
+
+  lcd.clear();
+
+  lcd.setCursor(0, 0);
+  lcd.print("Humidity Status:");
+
+  lcd.setCursor(0, 1);
+
+  if (h < 40) {
+    lcd.print("TOO DRY");
+  }
+
+  else if (h <= 55) {
+    lcd.print("NORMAL");
+  }
+
+  else {
+    lcd.print("TOO HUMID");
+  }
+
+  // Keep status on screen for 2 seconds
+  delay(2000);
+}
